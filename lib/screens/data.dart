@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,11 +15,22 @@ class DataScreen extends StatefulWidget {
 }
 
 class _DataScreenState extends State<DataScreen> {
-  final dbReference = FirebaseDatabase.instance;
+  late final FirebaseDatabase dbReference;
+  late DatabaseReference _cryptoRef;
 
   @override
   void initState() {
     super.initState();
+    dbReference = FirebaseDatabase(
+        databaseURL:
+            "https://auth-2bbc5-default-rtdb.europe-west1.firebasedatabase.app");
+    _cryptoRef = dbReference
+        .reference()
+        .child('crypto')
+        .child('0')
+        .child('data')
+        .child('BTC')
+        .child('quote');
   }
 
   @override
@@ -36,7 +48,6 @@ class _DataScreenState extends State<DataScreen> {
       ),
       body: Column(
         children: <Widget>[
-          Container(),
           ElevatedButton(
               onPressed: () {
                 ref
@@ -47,6 +58,20 @@ class _DataScreenState extends State<DataScreen> {
                     .asStream();
               },
               child: const Text('upload data')),
+          Flexible(
+            child: FirebaseAnimatedList(
+              shrinkWrap: true,
+              query: _cryptoRef,
+              itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                  Animation<double> animation, int index) {
+                print('here');
+                print(index);
+                // print(snapshot);
+                inspect(snapshot);
+                return Container();
+              },
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

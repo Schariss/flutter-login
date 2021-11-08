@@ -11,15 +11,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final FirebaseApp app = await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: 'AIzaSyAbspITdbDAyWzeIqecA1WvCT6aH1trnfA',
-    appId: '1:861467842894:android:84a9ee35c517df6443e61f',
-    messagingSenderId: '861467842894',
-    projectId: 'auth-2bbc5',
-    databaseURL:
-        'https://auth-2bbc5-default-rtdb.europe-west1.firebasedatabase.app',
-  ));
+  final FirebaseApp app = await Firebase.initializeApp();
   runApp(MyApp(app: app));
 }
 
